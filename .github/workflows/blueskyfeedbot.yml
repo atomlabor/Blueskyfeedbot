@@ -32,7 +32,7 @@ jobs:
           # This is your service URL (optional)
           service-url: https://atomlabor.bsky.social
           # This is the Bluesky username (example: username.bsky.social)
-          username: ${{ BlueAtom0808.bsky.social }}
+          username: ${{ atomlabor.bsky.social }}
           # This is the app password you created earlier
           password: ${{ secrets.BLUESKY_PASSWORD }}
           # This is a path to the cache file, using the above cache path
