@@ -26,13 +26,13 @@ jobs:
         uses: 'joschi/blueskyfeedbot@v0.0.2'
         with:
           # This is the RSS feed you want to publish
-          rss-feed: https://www.githubstatus.com/history.rss
+          rss-feed: https://feeds.feedburner.com/AtomlaborWuppertalBlog
           # Template of status posted to Bluesky (Handlebars)
           template: '{{item.title}} {{item.link}}'
           # This is your service URL (optional)
           service-url: https://bsky.social
           # This is the Bluesky username (example: username.bsky.social)
-          username: ${{ secrets.BLUESKY_USERNAME }}
+          username: ${{ atomlabor.bsky.social }}
           # This is the app password you created earlier
           password: ${{ secrets.BLUESKY_PASSWORD }}
           # This is a path to the cache file, using the above cache path
