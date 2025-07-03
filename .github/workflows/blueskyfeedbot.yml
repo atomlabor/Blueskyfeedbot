@@ -1,11 +1,13 @@
 name: FeedBot
 on:
   schedule:
-    # This will run every five minutes. Alter it using https://crontab.guru/.
+    # Läuft alle 5 Minuten - anpassbar über https://crontab.guru/
     - cron: '*/5 * * * *'
-  workflow_dispatch: # This allows manually running the workflow from the GitHub actions page
+  workflow_dispatch: # Erlaubt manuelles Ausführen
+
 concurrency:
   group: feedbot
+
 jobs:
   rss-to-bluesky:
     runs-on: ubuntu-latest
@@ -16,24 +18,26 @@ jobs:
         with:
           script: |
             core.setOutput('cache-key', new Date().valueOf())
+            
       - name: Retrieve cache
         uses: actions/cache@v3
         with:
           path: ${{ github.workspace }}/blueskyfeedbot
           key: feed-cache-${{ steps.generate-key.outputs.cache-key }}
           restore-keys: feed-cache-
-      - name: GitHub
-        uses: 'joschi/blueskyfeedbot@v0.0.2'
+          
+      - name: Post RSS to Bluesky
+        uses: 'joschi/blueskyfeedbot@v1'
         with:
-          # This is the RSS feed you want to publish
+          # Ihr RSS Feed
           rss-feed: https://feeds.feedburner.com/AtomlaborWuppertalBlog
-          # Template of status posted to Bluesky (Handlebars)
+          # Template für die Posts
           template: '{{item.title}} {{item.link}}'
-          # This is your service URL (optional)
-          service-url: https://atomlabor.bsky.social
-          # This is the Bluesky username (example: username.bsky.social)
-          username: ${{ atomlabor.de }}
-          # This is the app password you created earlier
+          # Ihr Bluesky Username (eigene Domain)
+          username: ${{ secrets.BLUESKY_USERNAME }}
+          # App-Passwort
           password: ${{ secrets.BLUESKY_PASSWORD }}
-          # This is a path to the cache file, using the above cache path
+          # Cache-Datei Pfad
           cache-file: ${{ github.workspace }}/blueskyfeedbot/cache.json
+          # Maximale Anzahl Posts beim ersten Lauf
+          initial-post-limit: 10
